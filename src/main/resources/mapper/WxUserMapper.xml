@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.henu.wechat.dao.WxUserMapper">
+  <resultMap id="BaseResultMap" type="com.henu.wechat.entity.WxUser">
+    <!--@mbg.generated-->
+    <!--@Table wx_user-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="subscribe" jdbcType="INTEGER" property="subscribe" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="language" jdbcType="VARCHAR" property="language" />
+    <result column="headimgurl" jdbcType="VARCHAR" property="headimgurl" />
+    <result column="subscribeTime" jdbcType="TIMESTAMP" property="subscribetime" />
+    <result column="unionid" jdbcType="VARCHAR" property="unionid" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="groupid" jdbcType="VARCHAR" property="groupid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, openid, subscribe, nickname, sex, city, country, province, `language`, headimgurl, 
+    subscribeTime, unionid, remark, groupid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from wx_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from wx_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.henu.wechat.entity.WxUser" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into wx_user (openid, subscribe, nickname, 
+      sex, city, country, 
+      province, `language`, headimgurl, 
+      subscribeTime, unionid, remark, 
+      groupid)
+    values (#{openid,jdbcType=VARCHAR}, #{subscribe,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, #{headimgurl,jdbcType=VARCHAR}, 
+      #{subscribetime,jdbcType=TIMESTAMP}, #{unionid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{groupid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.henu.wechat.entity.WxUser" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into wx_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="subscribe != null">
+        subscribe,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="language != null">
+        `language`,
+      </if>
+      <if test="headimgurl != null">
+        headimgurl,
+      </if>
+      <if test="subscribetime != null">
+        subscribeTime,
+      </if>
+      <if test="unionid != null">
+        unionid,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="groupid != null">
+        groupid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribe != null">
+        #{subscribe,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null">
+        #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="headimgurl != null">
+        #{headimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribetime != null">
+        #{subscribetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unionid != null">
+        #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="groupid != null">
+        #{groupid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.henu.wechat.entity.WxUser">
+    <!--@mbg.generated-->
+    update wx_user
+    <set>
+      <if test="openid != null">
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribe != null">
+        subscribe = #{subscribe,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null">
+        `language` = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="headimgurl != null">
+        headimgurl = #{headimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribetime != null">
+        subscribeTime = #{subscribetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unionid != null">
+        unionid = #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="groupid != null">
+        groupid = #{groupid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.henu.wechat.entity.WxUser">
+    <!--@mbg.generated-->
+    update wx_user
+    set openid = #{openid,jdbcType=VARCHAR},
+      subscribe = #{subscribe,jdbcType=INTEGER},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      city = #{city,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      `language` = #{language,jdbcType=VARCHAR},
+      headimgurl = #{headimgurl,jdbcType=VARCHAR},
+      subscribeTime = #{subscribetime,jdbcType=TIMESTAMP},
+      unionid = #{unionid,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      groupid = #{groupid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+<!--auto generated by MybatisCodeHelper on 2020-01-03-->
+  <select id="selectByOpenid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from wx_user
+    where openid=#{openid,jdbcType=VARCHAR}
+  </select>
+  
+<!--auto generated by MybatisCodeHelper on 2020-01-03-->
+  <update id="updateByOpenid">
+    update wx_user
+    <set>
+      <if test="updated.id != null">
+        id = #{updated.id,jdbcType=INTEGER},
+      </if>
+      <if test="updated.openid != null">
+        openid = #{updated.openid,jdbcType=VARCHAR},
+      </if>
+      <if test="updated.subscribe != null">
+        subscribe = #{updated.subscribe,jdbcType=INTEGER},
+      </if>
+      <if test="updated.nickname != null">
+        nickname = #{updated.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="updated.sex != null">
+        sex = #{updated.sex,jdbcType=INTEGER},
+      </if>
+      <if test="updated.city != null">
+        city = #{updated.city,jdbcType=VARCHAR},
+      </if>
+      <if test="updated.country != null">
+        country = #{updated.country,jdbcType=VARCHAR},
+      </if>
+      <if test="updated.province != null">
+        province = #{updated.province,jdbcType=VARCHAR},
+      </if>
+      <if test="updated.language != null">
+        language = #{updated.language,jdbcType=VARCHAR},
+      </if>
+      <if test="updated.headimgurl != null">
+        headimgurl = #{updated.headimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="updated.subscribetime != null">
+        subscribeTime = #{updated.subscribetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated.unionid != null">
+        unionid = #{updated.unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="updated.remark != null">
+        remark = #{updated.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updated.groupid != null">
+        groupid = #{updated.groupid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where openid=#{updated.openid,jdbcType=VARCHAR}
+  </update>
+</mapper>
