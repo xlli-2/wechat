@@ -1,7 +1,10 @@
 package com.henu.wechat.service;
 
 import com.henu.wechat.bean.*;
+import com.henu.wechat.common.ImageUtil;
 import com.henu.wechat.common.MessageUtil;
+import com.henu.wechat.dao.MessageMapper;
+import com.henu.wechat.entity.Message;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -31,6 +34,10 @@ public class CoreService {
 //    Music music;
 //    @Resource
 //    Article article;
+
+    @Resource
+    MessageMapper messageMapper;
+
     private static String respContent;
 
     public String processRequest(HttpServletRequest request) {
@@ -41,6 +48,7 @@ public class CoreService {
         try {
             // 调用parseXml方法解析请求消息
             Map<String, String> requestMap = MessageUtil.parseXml(request);
+
             String msgType = requestMap.get("MsgType");
 
             // 文本消息
@@ -49,7 +57,7 @@ public class CoreService {
             }
             // 图片消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) {
-                respContent = "您发送的是图片消息！";
+                baseMessage = dealImage(requestMap);
             }
             // 语音消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_VOICE)) {
@@ -78,7 +86,7 @@ public class CoreService {
                 String eventType = requestMap.get("Event");
                 // 关注
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
-                    respContent = "谢谢您的关注！";
+                    baseMessage = dealVoiceMessage(requestMap);
                 }
                 // 取消关注
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {
@@ -95,6 +103,7 @@ public class CoreService {
                 // 自定义菜单
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
                     // TODO 处理菜单点击事件
+                    baseMessage = dealClick(requestMap);
                 }
             }
             //将消息对象转换成xml
@@ -106,6 +115,35 @@ public class CoreService {
         return respXml;
     }
 
+
+    /**
+     * 处理图片
+     * @param requestMap
+     * @return
+     */
+    private BaseMessage dealImage(Map<String, String> requestMap) {
+        // TODO 处理图片
+
+        return ImageUtil.getContent(requestMap);
+    }
+
+    /**
+     * 处理点击事件
+     * @param requestMap
+     * @return
+     */
+    private BaseMessage dealClick(Map<String, String> requestMap) {
+        String eventKey = requestMap.get("EventKey");
+        if(eventKey.equals("1")) {
+            respContent = "您点了一个一级菜单";
+        }
+        else if(eventKey.equals("32")) {
+            respContent = "您点了一个一级菜单的二级菜单";
+        }
+        else respContent = "点了不该点的";
+        return new TextMessage(requestMap, "text", respContent);
+    }
+
     /**
      * 处理语音消息
      * @param requestMap
@@ -113,7 +151,10 @@ public class CoreService {
      */
     private BaseMessage dealVoiceMessage(Map<String, String> requestMap) {
         List<Article> list = new ArrayList<>();
-        list.add(new Article("这是标题", "这是描述", "http://i0vlgub.hn3.mofasuidao.cn/app/img/my_find_img.jpg", "http://www.baidu.com"));
+        List<Message> messages = messageMapper.selectByStatusOrderBySort();
+        for (Message message : messages) {
+            list.add(new Article(message.getTitle(), message.getDescription(),message.getPicurl(), message.getUrl()));
+        }
         return new NewsMessage(requestMap, "news", list);
     }
 

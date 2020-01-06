@@ -1,5 +1,6 @@
 package com.henu.wechat.controller;
 
+import com.henu.wechat.bean.JsonBean;
 import com.henu.wechat.common.CommonUtil;
 import com.henu.wechat.service.CoreService;
 import com.henu.wechat.service.WxUserService;
@@ -64,5 +65,12 @@ public class WechatInfoController {
         String xml = coreService.processRequest(request);
         System.out.println(xml);
         return xml;
+    }
+
+    @RequestMapping("code")
+    public JsonBean code(String code) {
+        JsonBean jsonBean = wxUserService.insertOauth(code);
+
+        return jsonBean;
     }
 }

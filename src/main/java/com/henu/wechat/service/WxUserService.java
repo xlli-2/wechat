@@ -1,10 +1,12 @@
 package com.henu.wechat.service;
 
+import com.henu.wechat.bean.JsonBean;
 import com.henu.wechat.bean.WechatFinalValue;
 import com.henu.wechat.common.HttpClientUtil;
 import com.henu.wechat.common.JsonUtil;
 import com.henu.wechat.dao.WxUserMapper;
 import com.henu.wechat.entity.WxUser;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -46,9 +48,6 @@ public class WxUserService {
         }
     }
 
-//    private String selectXmlData() {
-//
-//    }
 
 
     public String updateWxUser(Map<String, String> elementMap) {
@@ -58,5 +57,31 @@ public class WxUserService {
 //        String msgType = elementMap.get("MsgType");
         msgType(elementMap);
         return "";
+    }
+
+    public JsonBean insertOauth(String code) {
+        JsonBean JsonBean = new JsonBean(-1, "", "");
+
+        String url = "https://api.weixin.qq.com/sns/oauth2/access_token?" +
+                "appid="+WechatFinalValue.APP_ID+"&secret="+WechatFinalValue.APP_SECRET+
+                "&code="+code+"&grant_type=authorization_code";
+        try {
+            String s = HttpClientUtil.doGet(url);
+            JSONObject jsonObject = new JSONObject(s);
+            if(jsonObject.has("access_token")) {
+                String access_token = jsonObject.get("access_token") + "";
+                String openid = jsonObject.get("openid") + "";
+                WxUser wxUser = wxUserMapper.selectByOpenid(openid);
+                if(wxUser != null) {
+                    JsonBean = new JsonBean(0, "", wxUser);
+                }
+                else {
+                    //TODO 判断一下授权方式
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return JsonBean;
     }
 }

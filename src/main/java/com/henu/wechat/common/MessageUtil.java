@@ -73,7 +73,8 @@ public class MessageUtil {
 
         SAXReader reader = new SAXReader();
         Document document = reader.read(request.getInputStream());
-        // 得到xml根元素
+        // 得到xml根元素.
+//        System.out.println(document'');
         Element root = document.getRootElement();
         // 得到根元素的所有子节点
         List<Element> elementList = root.elements();
@@ -81,6 +82,7 @@ public class MessageUtil {
         // 遍历所有子节点
         for (Element e : elementList)
             map.put(e.getName(), e.getText());
+        System.out.println(map);
         return map;
     }
 

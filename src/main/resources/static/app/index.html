@@ -19,7 +19,24 @@
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage")
 		$(".loading").fadeOut(300)
+		let code = location.href.split("&")[0].split("=")[1];
+		// alert(code);
+		$.ajax({
+			type: "post",
+			url: "http://i0vlgub.hn3.mofasuidao.cn/code",
+			data: {
+				"code": code
+			},
+			dataType: 'json',
+			success(data) {
+				alert("code:" + data.code + "\n msg : "+ data.msg + "\n data:" + data.data
+				+ "openid : "+data.data.openid
+				);
+			}
+		})
 	})
+
+
 </script>
 </head>
 <!--loading页开始-->

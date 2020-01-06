@@ -1,6 +1,5 @@
 package com.henu.wechat;
 
-import com.henu.wechat.bean.AccessToken;
 import com.henu.wechat.bean.WechatFinalValue;
 import com.henu.wechat.common.HttpClientUtil;
 import org.json.JSONArray;
@@ -8,13 +7,15 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 
 public class AccessTokenTest {
 
     @Test
-    public void test1() {
-        String url = WechatFinalValue.MENU_CREAT_URL + AccessToken.getAccessToken();
+    public void test1() throws UnsupportedEncodingException {
+        String url = WechatFinalValue.MENU_CREAT_URL + WechatFinalValue.getAccessToken();
         /**
          * 做数据
          */
@@ -25,18 +26,22 @@ public class AccessTokenTest {
         //第一个一级菜单
         JSONObject json1 = new JSONObject();
         json1.put("type", "view");
-        json1.put("name", "首页");
-        json1.put("url", "http://14h2czm.hn3.mofasuidao.cn/app/index.html");
+        json1.put("name", "首页1");
+        String addr = "http://i0vlgub.hn3.mofasuidao.cn/app/index.html";
+        URLEncoder.encode(addr, "utf-8");
+        String oauth2 = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+                "appid="+WechatFinalValue.APP_ID+"&redirect_uri="+addr+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        json1.put("url", oauth2);
         //第二个一级菜单
         JSONObject json2 = new JSONObject();
         json2.put("type", "view");
         json2.put("name", "购物车");
-        json2.put("url", "http://14h2czm.hn3.mofasuidao.cn/app/shopcar.html");
+        json2.put("url", "http://i0vlgub.hn3.mofasuidao.cn/app/shopcar.html");
         //第三个一级菜单
         JSONObject json3 = new JSONObject();
         json3.put("type", "view");
         json3.put("name", "个人中心");
-        json3.put("url", "http://14h2czm.hn3.mofasuidao.cn/app/pcenter.html");
+        json3.put("url", "http://i0vlgub.hn3.mofasuidao.cn/app/pcenter.html");
         //将3个一级菜单放入到json数组之中
         jsonArray.put(json1);
         jsonArray.put(json2);
