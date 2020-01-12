@@ -23,6 +23,7 @@ class ButtonTest {
         sb.getSub_button().add(new ClickButton("点击", "32"));
         sb.getSub_button().add(new ViewButton("百度一下", "http://baidu.com"));
 
+
         btn.getButton().add(sb);
         JSONObject jsonObject = new JSONObject(btn);
 //        System.out.println(jsonObject.toString());
