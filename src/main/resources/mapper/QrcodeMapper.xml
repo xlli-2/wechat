@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.henu.wechat.dao.QrcodeMapper">
+  <resultMap id="BaseResultMap" type="com.henu.wechat.entity.Qrcode">
+    <!--@mbg.generated-->
+    <!--@Table qrcode-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="scene_str" jdbcType="VARCHAR" property="sceneStr" />
+    <result column="expire_seconds" jdbcType="INTEGER" property="expireSeconds" />
+    <result column="ticket" jdbcType="VARCHAR" property="ticket" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, openid, scene_str, expire_seconds, ticket, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from qrcode
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from qrcode
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.henu.wechat.entity.Qrcode" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into qrcode (openid, scene_str, expire_seconds, 
+      ticket, create_time)
+    values (#{openid,jdbcType=VARCHAR}, #{sceneStr,jdbcType=VARCHAR}, #{expireSeconds,jdbcType=INTEGER}, 
+      #{ticket,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.henu.wechat.entity.Qrcode" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into qrcode
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="sceneStr != null">
+        scene_str,
+      </if>
+      <if test="expireSeconds != null">
+        expire_seconds,
+      </if>
+      <if test="ticket != null">
+        ticket,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="sceneStr != null">
+        #{sceneStr,jdbcType=VARCHAR},
+      </if>
+      <if test="expireSeconds != null">
+        #{expireSeconds,jdbcType=INTEGER},
+      </if>
+      <if test="ticket != null">
+        #{ticket,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.henu.wechat.entity.Qrcode">
+    <!--@mbg.generated-->
+    update qrcode
+    <set>
+      <if test="openid != null">
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="sceneStr != null">
+        scene_str = #{sceneStr,jdbcType=VARCHAR},
+      </if>
+      <if test="expireSeconds != null">
+        expire_seconds = #{expireSeconds,jdbcType=INTEGER},
+      </if>
+      <if test="ticket != null">
+        ticket = #{ticket,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.henu.wechat.entity.Qrcode">
+    <!--@mbg.generated-->
+    update qrcode
+    set openid = #{openid,jdbcType=VARCHAR},
+      scene_str = #{sceneStr,jdbcType=VARCHAR},
+      expire_seconds = #{expireSeconds,jdbcType=INTEGER},
+      ticket = #{ticket,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

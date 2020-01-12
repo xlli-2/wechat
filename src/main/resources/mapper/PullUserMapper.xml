@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.henu.wechat.dao.PullUserMapper">
+  <resultMap id="BaseResultMap" type="com.henu.wechat.entity.PullUser">
+    <!--@mbg.generated-->
+    <!--@Table pull_user-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="scan_id" jdbcType="VARCHAR" property="scanId" />
+    <result column="share_id" jdbcType="VARCHAR" property="shareId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, scan_id, share_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from pull_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from pull_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.henu.wechat.entity.PullUser" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into pull_user (scan_id, share_id)
+    values (#{scanId,jdbcType=VARCHAR}, #{shareId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.henu.wechat.entity.PullUser" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into pull_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="scanId != null">
+        scan_id,
+      </if>
+      <if test="shareId != null">
+        share_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="scanId != null">
+        #{scanId,jdbcType=VARCHAR},
+      </if>
+      <if test="shareId != null">
+        #{shareId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.henu.wechat.entity.PullUser">
+    <!--@mbg.generated-->
+    update pull_user
+    <set>
+      <if test="scanId != null">
+        scan_id = #{scanId,jdbcType=VARCHAR},
+      </if>
+      <if test="shareId != null">
+        share_id = #{shareId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.henu.wechat.entity.PullUser">
+    <!--@mbg.generated-->
+    update pull_user
+    set scan_id = #{scanId,jdbcType=VARCHAR},
+      share_id = #{shareId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
