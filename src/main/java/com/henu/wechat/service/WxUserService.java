@@ -19,18 +19,6 @@ public class WxUserService {
     @Resource
     private WxUserMapper wxUserMapper;
 
-    private WxUser getWxUser(String openid) {
-        String url = "https://api.weixin.qq.com/cgi-bin/user/" +
-                "info?access_token=" + WechatFinalValue.getAccessToken() + "&openid=" + openid + "&lang=zh_CN";
-        try {
-            String s = HttpClientUtil.doGet(url);
-            WxUser wxUser = JsonUtil.fromJson(s, WxUser.class);
-            return wxUser;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 
     private void msgType(Map<String, String> elementMap) {
@@ -38,7 +26,7 @@ public class WxUserService {
         String msgType = elementMap.get("MsgType");
         WxUser wxUserDB = wxUserMapper.selectByOpenid(openid);
         if (msgType.equals("event")) {
-            WxUser wxUser = getWxUser(openid);
+            WxUser wxUser = WechatFinalValue.getWxUser(openid);
             if (elementMap.get("Event").equals("subscribe") && wxUserDB == null) {
                 wxUserMapper.insert(wxUser);
             }
@@ -61,27 +49,32 @@ public class WxUserService {
 
     public JsonBean insertOauth(String code) {
         JsonBean JsonBean = new JsonBean(-1, "", "");
-
-        String url = "https://api.weixin.qq.com/sns/oauth2/access_token?" +
-                "appid="+WechatFinalValue.APP_ID+"&secret="+WechatFinalValue.APP_SECRET+
-                "&code="+code+"&grant_type=authorization_code";
-        try {
-            String s = HttpClientUtil.doGet(url);
-            JSONObject jsonObject = new JSONObject(s);
-            if(jsonObject.has("access_token")) {
-                String access_token = jsonObject.get("access_token") + "";
-                String openid = jsonObject.get("openid") + "";
-                WxUser wxUser = wxUserMapper.selectByOpenid(openid);
-                if(wxUser != null) {
-                    JsonBean = new JsonBean(0, "", wxUser);
-                }
-                else {
-                    //TODO 判断一下授权方式
-                }
+        String s = WechatFinalValue.getAccessTokenAndOpenid(code);
+        JSONObject jsonObject = new JSONObject(s);
+        if (jsonObject.has("access_token")) {
+            String access_token = jsonObject.getString("access_token");
+            String openid = jsonObject.getString("openid");
+            WxUser wxUser = wxUserMapper.selectByOpenid(openid);
+            if (wxUser != null) {
+                JsonBean = new JsonBean(0, "", wxUser);
+            } else {
+                //TODO 判断一下授权方式
             }
+        }
+        return JsonBean;
+    }
+
+    public String getTicket() {
+        String url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + WechatFinalValue.getAccessToken();
+        String data = "{\"expire_seconds\": 604800, \"action_name\": \"QR_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \"谢谢你关注我\"}}}\n";
+        String ticket = "";
+        try {
+            ticket = HttpClientUtil.doPost(url, data);
+            JSONObject jsonObject = new JSONObject(ticket);
+            ticket = jsonObject.getString("ticket");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return JsonBean;
+        return ticket;
     }
 }

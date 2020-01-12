@@ -43,7 +43,7 @@ public class TemplateTest {
         String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + WechatFinalValue.getAccessToken();
 
         String data = " {\n" +
-                "           \"touser\":\"ogCiUjtouc4voxnRHfxigqYVej30\",\n" +
+                "           \"touser\":\"ogCiUjk62RtZRQYiX-uH2Lbd8Eoo\",\n" +
                 "           \"template_id\":\"TUENe394R6GpadARkSxE1dxzj2emhZkX-wY4vjH2iPc\",\n" +
                 "           \"data\":{\n" +
                 "                   \"first\": {\n" +
@@ -69,6 +69,40 @@ public class TemplateTest {
                 "           }\n" +
                 "       }";
 
+        try {
+            String s = HttpClientUtil.doPost(url, data);
+            System.out.println(s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void fun3() {
+        String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="
+                + WechatFinalValue.getAccessToken();
+        String data =" {\n" +
+                "           \"touser\":\"ogCiUjtouc4voxnRHfxigqYVej30\",\n" +
+                "           \"template_id\":\"UUY5-S01fsz6X6qAHDUobn551JLf_9GONy-hrZQaMV4\",         \n" +
+                "           \"data\":{\n" +
+                "                   \"first\": {\n" +
+                "                       \"value\":\"恭喜 XX 又成功拉取一个用户\",\n" +
+                "                       \"color\":\"#173177\"\n" +
+                "                   },\n" +
+                "                   \"keyword1\":{\n" +
+                "                       \"value\":\"拉去的用户昵称是\",\n" +
+                "                       \"color\":\"#173177\"\n" +
+                "                   },\n" +
+                "                   \"keyword2\": {\n" +
+                "                       \"value\":\"2020-01-07 16：04\",\n" +
+                "                       \"color\":\"#173177\"\n" +
+                "                   },\n" +
+                "                   \"remark\":{\n" +
+                "                       \"value\":\"再接再厉，马上满级！\",\n" +
+                "                       \"color\":\"#173177\"\n" +
+                "                   }\n" +
+                "           }\n" +
+                "       }";
         try {
             String s = HttpClientUtil.doPost(url, data);
             System.out.println(s);

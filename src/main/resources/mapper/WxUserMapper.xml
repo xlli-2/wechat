@@ -46,7 +46,7 @@
     values (#{openid,jdbcType=VARCHAR}, #{subscribe,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, 
       #{sex,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
       #{province,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, #{headimgurl,jdbcType=VARCHAR}, 
-      #{subscribetime,jdbcType=TIMESTAMP}, #{unionid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      now(), #{unionid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
       #{groupid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.henu.wechat.entity.WxUser" useGeneratedKeys="true">
@@ -121,9 +121,7 @@
       <if test="headimgurl != null">
         #{headimgurl,jdbcType=VARCHAR},
       </if>
-      <if test="subscribetime != null">
-        #{subscribetime,jdbcType=TIMESTAMP},
-      </if>
+      now(),
       <if test="unionid != null">
         #{unionid,jdbcType=VARCHAR},
       </if>
@@ -166,9 +164,7 @@
       <if test="headimgurl != null">
         headimgurl = #{headimgurl,jdbcType=VARCHAR},
       </if>
-      <if test="subscribetime != null">
-        subscribeTime = #{subscribetime,jdbcType=TIMESTAMP},
-      </if>
+        subscribeTime = now(),
       <if test="unionid != null">
         unionid = #{unionid,jdbcType=VARCHAR},
       </if>
@@ -193,7 +189,7 @@
       province = #{province,jdbcType=VARCHAR},
       `language` = #{language,jdbcType=VARCHAR},
       headimgurl = #{headimgurl,jdbcType=VARCHAR},
-      subscribeTime = #{subscribetime,jdbcType=TIMESTAMP},
+      subscribeTime = now(),
       unionid = #{unionid,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       groupid = #{groupid,jdbcType=VARCHAR}
@@ -243,7 +239,7 @@
         headimgurl = #{updated.headimgurl,jdbcType=VARCHAR},
       </if>
       <if test="updated.subscribetime != null">
-        subscribeTime = #{updated.subscribetime,jdbcType=TIMESTAMP},
+        subscribeTime = now(),
       </if>
       <if test="updated.unionid != null">
         unionid = #{updated.unionid,jdbcType=VARCHAR},

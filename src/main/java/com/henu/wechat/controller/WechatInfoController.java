@@ -2,6 +2,7 @@ package com.henu.wechat.controller;
 
 import com.henu.wechat.bean.JsonBean;
 import com.henu.wechat.common.CommonUtil;
+import com.henu.wechat.entity.WxUser;
 import com.henu.wechat.service.CoreService;
 import com.henu.wechat.service.WxUserService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,9 +69,21 @@ public class WechatInfoController {
     }
 
     @RequestMapping("code")
-    public JsonBean code(String code) {
-        JsonBean jsonBean = wxUserService.insertOauth(code);
-
+    public JsonBean code(String code, HttpServletRequest request) {
+        WxUser wxUser = (WxUser) request.getSession().getAttribute("wxUser");
+        JsonBean jsonBean = new JsonBean(888, "", wxUser);
+        if(wxUser == null) {
+            jsonBean = wxUserService.insertOauth(code);
+            jsonBean.setData(jsonBean.getData());
+            request.getSession().setAttribute("wxUser", jsonBean.getData());
+        }
         return jsonBean;
     }
+
+    @RequestMapping("getTicket")
+    public String getTicket() {
+
+        return wxUserService.getTicket();
+    }
 }
+

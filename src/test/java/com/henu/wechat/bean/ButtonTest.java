@@ -15,7 +15,7 @@ class ButtonTest {
         //第一个 一级菜单
         btn.getButton().add(new ClickButton("一级点击", "1"));
         //第二个 一级菜单
-        btn.getButton().add(new ViewButton("一级跳转", "http://i0vlgub.hn3.mofasuidao.cn/app/shopcar.html"));
+        btn.getButton().add(new ViewButton("一级跳转", WechatFinalValue.getOnlineAuto("http://xy5cpqu.hn3.mofasuidao.cn/app/index.html")));
         //第三个 一级菜单 （子菜单增加三个二级菜单）
         SubButton sb = new SubButton("有子菜单");
 

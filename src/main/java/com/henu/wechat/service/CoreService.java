@@ -1,10 +1,16 @@
 package com.henu.wechat.service;
 
 import com.henu.wechat.bean.*;
+import com.henu.wechat.common.DateUtil;
 import com.henu.wechat.common.ImageUtil;
 import com.henu.wechat.common.MessageUtil;
 import com.henu.wechat.dao.MessageMapper;
+import com.henu.wechat.dao.PullUserMapper;
+import com.henu.wechat.dao.QrcodeMapper;
+import com.henu.wechat.dao.WxUserMapper;
 import com.henu.wechat.entity.Message;
+import com.henu.wechat.entity.PullUser;
+import com.henu.wechat.entity.WxUser;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,27 +22,14 @@ import java.util.Map;
 @Service
 public class CoreService {
 
-//    @Resource
-//    BaseMessage baseMessage;
-//    @Resource
-//    ImageMessage imageMessage;
-//    @Resource
-//    MusicMessage musicMessage;
-//    @Resource
-//    NewsMessage newsMessage;
-//    @Resource
-//    TextMessage textMessage;
-//    @Resource
-//    VideoMessage videoMessage;
-//    @Resource
-//    VoiceMessage voiceMessage;
-//    @Resource
-//    Music music;
-//    @Resource
-//    Article article;
-
     @Resource
     MessageMapper messageMapper;
+
+    @Resource
+    WxUserMapper wxUserMapper;
+
+    @Resource
+    PullUserMapper pullUserMapper;
 
     private static String respContent;
 
@@ -86,11 +79,11 @@ public class CoreService {
                 String eventType = requestMap.get("Event");
                 // 关注
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
-                    baseMessage = dealVoiceMessage(requestMap);
+                    baseMessage = dealSubscribe(requestMap, MessageUtil.EVENT_TYPE_SUBSCRIBE);
                 }
                 // 取消关注
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {
-                    // TODO 取消订阅后用户不会再收到公众账号发送的消息，因此不需要回复
+                    baseMessage = dealSubscribe(requestMap, MessageUtil.EVENT_TYPE_UNSUBSCRIBE);
                 }
                 // 扫描带参数二维码
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_SCAN)) {
@@ -145,6 +138,36 @@ public class CoreService {
     }
 
     /**
+     * 处理关注事件
+     * @param requestMap
+     * @return
+     */
+    private BaseMessage dealSubscribe(Map<String, String> requestMap, String event) {
+        String openid = requestMap.get("FromUserName") + "";
+        WxUser wxUser = wxUserMapper.selectByOpenid(openid);
+        WxUser wxUserDB = WechatFinalValue.getWxUser(openid);
+        System.out.println("********************");
+        System.out.println(wxUserDB);
+        if(wxUser == null && event.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
+            wxUserMapper.insert(wxUserDB);
+            if(requestMap.get("Ticket") != null) {
+                String share_id = requestMap.get("EventKey").split("_")[1];
+                pullUserMapper.insert(new PullUser(openid, share_id));
+                /**
+                 * 消息推送 恭喜xx拉取用户
+                 */
+                WxUser shard_user = wxUserMapper.selectByOpenid(share_id);
+                WxUser pull_user = wxUserMapper.selectByOpenid(openid);
+                WechatFinalValue.sendTemplateMessage(share_id, shard_user.getNickname(), pull_user.getNickname());
+            }
+        }
+        else {
+            wxUserMapper.updateByOpenid(wxUserDB);
+        }
+        return dealVoiceMessage(requestMap);
+    }
+
+    /**
      * 处理语音消息
      * @param requestMap
      * @return
@@ -153,7 +176,7 @@ public class CoreService {
         List<Article> list = new ArrayList<>();
         List<Message> messages = messageMapper.selectByStatusOrderBySort();
         for (Message message : messages) {
-            list.add(new Article(message.getTitle(), message.getDescription(),message.getPicurl(), message.getUrl()));
+            list.add(new Article(message.getTitle(), message.getDescription(),message.getPicurl(), WechatFinalValue.getOnlineAuto(message.getUrl())));
         }
         return new NewsMessage(requestMap, "news", list);
     }

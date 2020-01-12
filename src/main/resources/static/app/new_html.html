@@ -2,9 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js" ></script>
+<script>
+    $(() => {
+        $('button').click(() => {
+            let url = '/getTicket'
+            $.get(url, (ticket) => {
+                $('img').attr("src", "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + ticket);
+            })
+        })
+    })
+</script>
 <body>
-$END$
+<button>生成二维码</button>
+<img src="" alt="">
 </body>
 </html>

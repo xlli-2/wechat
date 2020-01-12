@@ -1,6 +1,10 @@
 package com.henu.wechat.dao;
 
+import com.henu.wechat.bean.MyTeam;
 import com.henu.wechat.entity.PullUser;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface PullUserMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +18,6 @@ public interface PullUserMapper {
     int updateByPrimaryKeySelective(PullUser record);
 
     int updateByPrimaryKey(PullUser record);
+
+    List<MyTeam> selectMyTeamByOpenid(@Param("openid") String openId);
 }

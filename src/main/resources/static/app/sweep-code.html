@@ -18,6 +18,7 @@
 	$(window).load(function(){
 		$(".loading").addClass("loader-chanage");
 		$(".loading").fadeOut(300);
+		$('#qrcode').attr('src', "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket="+location.href.split('=')[1]);
 	})
 </script>
 </head>
@@ -47,7 +48,7 @@
 				<p class="tel ta-c">
 					<img src="images/del-pic2.jpg" style="width: 100%;"/>
 				</p><p class="tel ta-c">
-					<img id="qrcode" style="width: 130px;height: 130px;position: absolute;left: 64px;top: 400px;"/>
+					<img id="qrcode" style="width: 130px;height: 130px;position: absolute;left: 64px;top: 330px;"/>
 				</p>
 			</div>
 			<!--pcenter top end-->
@@ -90,7 +91,7 @@
 	<script type="text/javascript" src="js/jquery-1.8.3.min.js" ></script>
 	<script src="js/fastclick.js"></script>
 	<script src="js/mui.min.js"></script>
-	<script src="js/hmt.js"></script>
+<!--	<script src="js/hmt.js"></script>-->
 <script type="text/javascript">
 </script>
 </html>

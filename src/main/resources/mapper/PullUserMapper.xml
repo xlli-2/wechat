@@ -69,4 +69,8 @@
       share_id = #{shareId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+	<select id="selectMyTeamByOpenid" resultType="com.henu.wechat.bean.MyTeam">
+      SELECT * FROM wx_user  WHERE openid in (
+	    SELECT scan_id FROM pull_user WHERE share_id = #{openid,jdbcType=INTEGER} )
+    </select>
 </mapper>

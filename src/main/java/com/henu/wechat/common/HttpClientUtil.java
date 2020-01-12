@@ -31,6 +31,7 @@ public class HttpClientUtil {
         HttpPost httpPost = new HttpPost(url);
         //创建Http连接
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
         //数据放入到post请求之中
         httpPost.setEntity(new StringEntity(data, "utf-8"));
         //执行发送请求

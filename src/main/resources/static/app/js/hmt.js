@@ -1,7 +1,26 @@
-// JavaScript Document
 $(function(){
-	
+	let openid = sessionStorage.getItem("openid");
+	if (openid == null){
+		let url = location.href;
+		if (url.indexOf("?") !== -1){
+			let codeStr = url.split("&")[0];
+			if (codeStr.indexOf("=") !== -1){
+				let code = codeStr.split("=")[1];
+				$.ajax({
+					type:"post",
+					url:"http://i0vlgub..mofasuidao.cn/code",
+					data:{"code":code},
+					dataType:"json",
+					async:false,
+					success:function (data) {
+						sessionStorage.setItem("openid", data.data.openid);
+					}
+				})
+			}
+		}
+	}
 	//计算内容上下padding
+
 	reContPadding({main:"#main",header:"#header",footer:"#footer"});
 	function reContPadding(o){
 		var main = o.main || "#main",
@@ -12,7 +31,6 @@ $(function(){
 		$(main).css({paddingTop:cont_pt,paddingBottom:cont_pb});
 	}
 });
-
 
 //折叠展开列表内容
 $(document).ready(function(){
